@@ -14,8 +14,8 @@ class HashTable:
     '''
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
-        self.storage = [None] * capacity
-
+        # self.storage = [None] * capacity
+        self.storage = [[] for _ in range(capacity)]
 
     def _hash(self, key):
         '''
@@ -51,7 +51,21 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        hash_key = self._hash_mod(key)
+        key_exists = False
+        bucket = self.storage[hash_key]    
+        for i, kv in enumerate(bucket):
+            k, v = kv
+            if key == k:
+                key_exists = True 
+                break
+        if key_exists:
+            bucket[i] = ((key, value))
+        else:
+            bucket.append((key, value))
+        # hash_key = self._hash_mod(key)
+        # self.storage[hash_key].append(value) 
+  
 
 
 
@@ -74,7 +88,9 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        for a in self.storage[self._hash_mod(key)]:
+            if a[0] == key:
+                return a[1]
 
 
     def resize(self):
@@ -84,7 +100,13 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        a = self.storage
+        self.capacity = self.capacity * 2
+        self.storage = [[] for _ in range(self.capacity)]
+
+        for i in a:
+            for j in i:
+             self.insert(j[0],j[1])
 
 
 
