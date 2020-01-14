@@ -77,12 +77,6 @@ class HashTable:
 
         Fill this in.
         '''
-        # a = self.storage
-
-        # for i in a:
-        #     for j in i:
-        #         print(j[0],j[1])
-
         hash_key = self._hash_mod(key)
         key_exists = False
         bucket = self.storage[hash_key]    
@@ -97,6 +91,7 @@ class HashTable:
         else:
             print ('Key {} not found'.format(key))
  
+
     def retrieve(self, key):
         '''
         Retrieve the value stored with the given key.
@@ -107,7 +102,7 @@ class HashTable:
         '''
         for a in self.storage[self._hash_mod(key)]:
             if a[0] == key:
-                print('myremove',a[0],a[1])
+                return a[1]
 
 
     def resize(self):
@@ -123,7 +118,7 @@ class HashTable:
 
         for i in a:
             for j in i:
-                self.insert(j[0],j[1])
+               self.insert(j[0],j[1])
 
 
 
