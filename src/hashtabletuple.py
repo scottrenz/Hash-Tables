@@ -14,8 +14,8 @@ class HashTable:
     '''
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
-        self.storage = [None] * capacity
-        # self.storage = [[] for _ in range(capacity)]
+        # self.storage = [None] * capacity
+        self.storage = [[] for _ in range(capacity)]
 
     def _hash(self, key):
         '''
@@ -52,21 +52,21 @@ class HashTable:
         Fill this in.
         '''
         hash_key = self._hash_mod(key)
+        key_exists = False
         bucket = self.storage[hash_key]    
-        if bucket is None:
-            self.storage[hash_key] = LinkedPair(key, value)
+        for i, kv in enumerate(bucket):
+            k, v = kv
+            if key == k:
+                key_exists = True 
+                break
+        if key_exists:
+            bucket[i] = ((key, value))
         else:
-            while True:
-                if bucket.key == key:
-                    bucket.value = value
-                    break
-                else:
-                    if bucket.next is None:
-                        new_bucket = LinkedPair(key, value)
-                        bucket.next = new_bucket
-                        break
-                    else:
-                        bucket = bucket.next
+            bucket.append((key, value))
+        # hash_key = self._hash_mod(key)
+        # self.storage[hash_key].append(value) 
+  
+
 
 
     def remove(self, key):
@@ -78,33 +78,19 @@ class HashTable:
         Fill this in.
         '''
         hash_key = self._hash_mod(key)
+        key_exists = False
         bucket = self.storage[hash_key]    
-        if bucket is None:
-            return
+        for i, kv in enumerate(bucket):
+            k, v = kv 
+            if key == k:
+                key_exists = True 
+                break
+        if key_exists:
+            del bucket[i]
+            print ('Key {} deleted'.format(key))
         else:
-            prev_bucket = None
-            while True:
-                if bucket.key == key:
-                    if prev_bucket is None:
-                        if bucket.next is None:
-                            self.storage[hash_key] = None
-                            break
-                        else:
-                            self.storage[hash_key] = bucket.next
-                            break
-                    else:
-                        if bucket.next is None:
-                            prev_bucket.next = None
-                            break
-                        else:
-                            prev_bucket.next = bucket.next
-                            break
-                else:
-                    if bucket.next is None:
-                        break
-                    else:
-                        prev_bucket = bucket
-                        bucket = bucket.next
+            print ('Key {} not found'.format(key))
+ 
 
     def retrieve(self, key):
         '''
@@ -114,18 +100,10 @@ class HashTable:
 
         Fill this in.
         '''
-        hash_key = self._hash_mod(key)
-        bucket = self.storage[hash_key]
-        if bucket is None:
-            return
-        while True:    
-            if bucket.key == key:
-                return bucket.value
-            else:
-                if bucket.next is not None:
-                    bucket = bucket.next
-                else:
-                    break
+        for a in self.storage[self._hash_mod(key)]:
+            if a[0] == key:
+                return a[1]
+
 
     def resize(self):
         '''
@@ -136,15 +114,12 @@ class HashTable:
         '''
         a = self.storage
         self.capacity = self.capacity * 2
-        self.storage = [None] * self.capacity
+        self.storage = [[] for _ in range(self.capacity)]
 
-        for bucket in a:
-            if bucket is not None:
-                self.insert(bucket.key, bucket.value)
-                b = bucket.next
-                while b is not None:
-                    self.insert(b.key, b.value)
-                    b = b.next
+        for i in a:
+            for j in i:
+               self.insert(j[0],j[1])
+
 
 
 if __name__ == "__main__":
@@ -174,3 +149,4 @@ if __name__ == "__main__":
     print(ht.retrieve("line_3"))
 
     print("")
+    print(ht.storage)

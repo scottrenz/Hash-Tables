@@ -116,8 +116,6 @@ class HashTable:
         '''
         hash_key = self._hash_mod(key)
         bucket = self.storage[hash_key]
-        if bucket is None:
-            return
         while True:    
             if bucket.key == key:
                 return bucket.value
@@ -139,12 +137,11 @@ class HashTable:
         self.storage = [None] * self.capacity
 
         for bucket in a:
-            if bucket is not None:
-                self.insert(bucket.key, bucket.value)
-                b = bucket.next
-                while b is not None:
-                    self.insert(b.key, b.value)
-                    b = b.next
+            self.insert(bucket.key, bucket.value)
+            b = bucket.next
+            while b is not None:
+                self.insert(b.key, b.value)
+                b = b.next
 
 
 if __name__ == "__main__":
@@ -174,3 +171,4 @@ if __name__ == "__main__":
     print(ht.retrieve("line_3"))
 
     print("")
+    print(ht.storage)
