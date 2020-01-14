@@ -4,6 +4,12 @@ from hashtable import HashTable
 
 
 class TestHashTable(unittest.TestCase):
+    def test_link_list_is_used(self):
+        ht = HashTable(8)
+        ht.insert("key-0", "val-0")
+        for i in ht.storage:
+            if i is not None:
+                return ((i.key, i.value))
 
     def test_hash_table_insertion_and_retrieval(self):
         ht = HashTable(8)
