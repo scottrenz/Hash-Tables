@@ -126,6 +126,7 @@ class HashTable:
                     bucket = bucket.next
                 else:
                     break
+                    
 
     def resize(self):
         '''
