@@ -4,6 +4,7 @@ from hashtable import HashTable
 
 
 class TestHashTable(unittest.TestCase):
+    
     def test_link_list_is_used(self):
         ht = HashTable(8)
         ht.insert("key-0", "val-0")
