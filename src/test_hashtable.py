@@ -10,7 +10,7 @@ class TestHashTable(unittest.TestCase):
         ht.insert("key-0", "val-0")
         for i in ht.storage:
             if i is not None:
-                return ((i.key, i.value))
+                return ((i.key, i.value, i.next))
 
     def test_hash_table_insertion_and_retrieval(self):
         ht = HashTable(8)
